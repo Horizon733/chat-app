@@ -1,4 +1,4 @@
-package com.example.chatapp.presentation.login
+package com.example.chatapp.presentation.registration
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chatapp.R
+import com.example.chatapp.presentation.login.*
 import com.example.chatapp.ui.theme.ChatappTheme
 
 val signupName = mutableStateOf("")
