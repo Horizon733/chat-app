@@ -1,30 +1,37 @@
 package com.example.chatapp.presentation.chatscreen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.Attachment
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.outlined.EmojiEmotions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.chatapp.R
+import com.example.chatapp.ui.theme.ChatappTheme
 
 
 data class Chat(
@@ -32,6 +39,8 @@ data class Chat(
     val time: String,
     val isOutgoing: Boolean
 )
+
+
 
 val message = mutableStateOf("")
 
@@ -45,21 +54,21 @@ val chats = mutableStateListOf(
 )
 
 const val username = "Gojo Satoru"
-const val profile = R.drawable.ic_round_arrow_back
 const val isOnline = true
 
 @Composable
 fun ChatScreen() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.primary),
         verticalArrangement = Arrangement.SpaceBetween
+
     ) {
         TopBarSection(
             username = username,
-            profile = painterResource(id = profile),
-            isOnline = isOnline,
-            onBack = {  }
-        )
+            isOnline = isOnline
+        ) { }
         ChatSection(Modifier.weight(1f))
         MessageSection()
     }
@@ -68,69 +77,83 @@ fun ChatScreen() {
 @Composable
 fun TopBarSection(
     username: String,
-    profile: Painter,
     isOnline: Boolean,
     onBack: () -> Unit
 ) {
-    Card(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp),
-        backgroundColor = Color(0xFFFAFAFA),
-        elevation = 4.dp
+            .height(60.dp)
+            .background(color = if (isSystemInDarkTheme()) Black else White),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+
+        IconButton(
+            onClick = onBack,
         ) {
-            IconButton(
-                onClick = onBack
-            ){
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = "Back"
-                )
-            }
-
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Image(
-                painter = profile,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(42.dp)
-                    .clip(CircleShape)
+            Icon(
+                tint = if (isSystemInDarkTheme()) White else DarkGray,
+                imageVector = Icons.Filled.ArrowBackIos,
+                contentDescription = "Back",
             )
+        }
 
-            Spacer(modifier = Modifier.width(8.dp))
 
-            Column {
-                Text(text = username, fontWeight = FontWeight.SemiBold)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                color = if (isSystemInDarkTheme()) White else DarkGray,
+                text = username,
+                fontWeight = FontWeight.ExtraBold
+            )
+            if (isOnline) {
                 Text(
-                    text = if (isOnline) "Online" else "Offline",
+                    color = if (isSystemInDarkTheme()) White else DarkGray,
+                    text = "Online",
+                    fontWeight = FontWeight.SemiBold,
                     fontSize = 12.sp
                 )
             }
         }
+
+        IconButton(
+            onClick = { },
+        ) {
+            Icon(
+                tint = if (isSystemInDarkTheme()) White else DarkGray,
+                imageVector = Icons.Filled.Call,
+                contentDescription = "Call",
+            )
+        }
+
     }
 }
 
 @Composable
 fun ChatSection(
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+
+    ) {
     LazyColumn(
+        reverseLayout = true,
         modifier = modifier
             .fillMaxWidth()
+            .background(
+                color = if (isSystemInDarkTheme()) Black else White,
+                shape = RoundedCornerShape(
+                    bottomStart = 50.dp,
+                    bottomEnd = 50.dp
+                )
+
+            )
             .padding(16.dp),
     ) {
         items(chats) { chat ->
             MessageItem(
                 chat.message,
-                chat.time,
+                chat.time.uppercase(),
                 chat.isOutgoing
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -140,26 +163,38 @@ fun ChatSection(
 
 @Composable
 fun MessageSection() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(),
-        backgroundColor = Color.White,
-        elevation = 10.dp
+    Column(
+        Modifier
+            .background(MaterialTheme.colors.primary)
+            .fillMaxWidth()
+            .padding(10.dp)
+
     ) {
-        OutlinedTextField(
+        TextField(
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { addChat() }),
             placeholder = {
-                Text("Message..")
+                Text(
+                    "Message..",
+                    color = White
+                )
+
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = White,
+                focusedBorderColor = MaterialTheme.colors.primary,
+                textColor = White,
+            ),
             value = message.value,
             onValueChange = {
                 message.value = it
             },
             shape = RoundedCornerShape(25.dp),
-            trailingIcon = {
+            leadingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_round_arrow_forward, ),
+                    imageVector = Icons.Outlined.EmojiEmotions,
+                    tint = White,
                     contentDescription = null,
-                    tint = MaterialTheme.colors.primary,
                     modifier = Modifier.clickable {
                         chats.add(Chat(message.value, "10:00 PM", true))
                         message.value = ""
@@ -167,11 +202,40 @@ fun MessageSection() {
                 )
 
             },
+            trailingIcon = {
+                Row {
+                    Icon(
+                        imageVector = Icons.Default.Attachment,
+                        tint = White,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .rotate(315f)
+                            .clickable {
+                            }
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        tint = White,
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            addChat()
+                        }
+                    )
+                }
+
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(6.dp),
+                .padding(2.dp),
         )
     }
+
+}
+
+private fun addChat() {
+    chats.add(0, Chat(message.value, "10:00 PM", true))
+    message.value = ""
 }
 
 @Composable
@@ -187,8 +251,13 @@ fun MessageItem(
         Box(
             modifier = Modifier
                 .background(
-                    if (isOut) MaterialTheme.colors.primary else Color(0xFF616161),
-                    shape = RoundedCornerShape(16.dp)
+                    if (isOut) MaterialTheme.colors.primary else Color(0xFFF3F6FA),
+                    shape = RoundedCornerShape(
+                        topStart = 16.dp,
+                        topEnd = 16.dp,
+                        bottomStart = if (isOut) 16.dp else 0.dp,
+                        bottomEnd = if (isOut) 0.dp else 16.dp
+                    )
                 )
                 .padding(
                     top = 8.dp,
@@ -199,13 +268,16 @@ fun MessageItem(
         ) {
             Text(
                 text = messageText,
-                color = Color.White
+                fontWeight = FontWeight.Bold,
+                color = if (isOut) White else DarkGray,
             )
         }
 
         Text(
             text = time,
+            fontWeight = FontWeight.Light,
             fontSize = 12.sp,
+            color = if (isSystemInDarkTheme()) White else DarkGray,
             modifier = Modifier.padding(start = 8.dp)
         )
     }
@@ -213,6 +285,8 @@ fun MessageItem(
 
 @Preview(showBackground = true)
 @Composable
-fun Preview(){
-    ChatScreen()
+fun Preview() {
+    ChatappTheme {
+        ChatScreen()
+    }
 }
