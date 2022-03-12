@@ -1,6 +1,7 @@
 package com.example.chatapp.presentation.chatscreen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -143,7 +144,7 @@ fun ChatSection(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = if (isSystemInDarkTheme()) Black else White,
+                color = White,
                 shape = RoundedCornerShape(
                     bottomStart = 50.dp,
                     bottomEnd = 50.dp
@@ -285,8 +286,8 @@ fun MessageItem(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_NO)
-//@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+//@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_NO)
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun Preview() {
     ChatappTheme {
