@@ -1,4 +1,4 @@
-package com.example.chatapp.presentation.login
+package com.example.chatapp.presentation.registration
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
@@ -19,13 +19,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chatapp.ChangeStatusBarColor
 import com.example.chatapp.R
+import com.example.chatapp.presentation.login.*
 import com.example.chatapp.ui.theme.ChatappTheme
 
-val loginEmail = mutableStateOf("")
-val loginPassword = mutableStateOf("")
+val signupName = mutableStateOf("")
+val signupEmail = mutableStateOf("")
+val signupPassword = mutableStateOf("")
 
 @Composable
-fun LoginScreen() {
+fun SignupScreen() {
     ChangeStatusBarColor(White)
     Column(
         modifier = Modifier
@@ -36,26 +38,28 @@ fun LoginScreen() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //BackButton(R.drawable.ic_round_arrow_back, null, onClick = {})
+            //BackButton(R.drawable.ic_round_arrow_back, null) {}
             TopBarSection("Chat App")
             VerticalSpacer()
-            TitleSection("Welcome Back!")
+            TitleSection("Register")
             Vector(id = R.drawable.ic_signup_vector)
         }
         Column(
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            LoginSection("Username or Email", "Password")
+            SignupSection("Username", "Email address", "Password")
             VerticalSpacer()
-            RedirectSection("Don't have an account?", "Sign up") { /*todo navigation*/ }
+            RedirectSection("Already have an account?", "Login") { /*todo navigation*/ }
             VerticalSpacer()
         }
     }
 }
 
+
 @Composable
-fun LoginSection(
+fun SignupSection(
+    hintName: String,
     hintEmail: String,
     hintPassword: String
 ) {
@@ -64,32 +68,28 @@ fun LoginSection(
             .padding(24.dp)
             .scrollable(ScrollableState { .25f }, Orientation.Vertical)
     ) {
-        AuthTextField(loginEmail.value, { loginEmail.value = it }, hintEmail)
+        AuthTextField(signupName.value, { signupName.value = it }, hintName)
+        Spacer(modifier = Modifier.height(12.dp))
+        AuthTextField(signupEmail.value, { signupEmail.value = it }, hintEmail)
         Spacer(modifier = Modifier.height(12.dp))
         AuthTextField(
-            loginPassword.value,
-            { loginPassword.value = it },
+            signupPassword.value,
+            { signupPassword.value = it },
             hintPassword,
             isPasswordField = true
         )
         Spacer(modifier = Modifier.height(12.dp))
-        ForgotPasswordSection()
-        Spacer(modifier = Modifier.height(12.dp))
-        ContinueButtonSection("Login")
-
-
+        ContinueButtonSection("Sign up")
     }
 }
-
 
 //@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun LoginPreview() {
-    //TopActionBar()
+fun SignupPreview() {
     ChatappTheme {
         Surface {
-            LoginScreen()
+            SignupScreen()
         }
     }
 }
