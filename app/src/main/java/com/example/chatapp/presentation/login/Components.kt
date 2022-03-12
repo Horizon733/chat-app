@@ -1,146 +1,218 @@
 package com.example.chatapp.presentation.login
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Gray
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+val radius = 14.dp
+val height = 60.dp
+val titleTextSize = 30.sp
+val defaultSpacerHeight = 12.dp
+const val topBarRadiusPercent = 50
+
+@Composable
+fun Vector(id: Int){
+    Image(
+        painter = painterResource(id = id),
+        contentDescription = null,
+        Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun TopBarSection(
+    text: String
+){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .background(
+                White,
+                RoundedCornerShape(
+                    bottomStartPercent = topBarRadiusPercent,
+                    bottomEndPercent = topBarRadiusPercent
+                )
+            )
+            .height(height * 1.5.toInt())
+            .fillMaxWidth()
+
+    ){
+        Text(
+            text, color = MaterialTheme.colors.primary,
+            fontSize = titleTextSize,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
 @Composable
 fun TitleSection(
-    title: String,
-    description: String
+    title: String
 ) {
     Column(
-        modifier = Modifier.padding(start = 4.dp)
-    ) {
-        Text(
-            text = title,
-            fontSize = 40.sp,
-            fontWeight = FontWeight.Bold,
-        )
-        Text(text = description, fontSize = 16.sp)
-    }
-}
-
-@Composable
-fun BackButton(
-    icon: Int,
-    iconDescription: String?,
-    onClick: () -> Unit
-) {
-    Box(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .size(50.dp)
-            .background(Color.White, CircleShape)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            painter = painterResource(id = icon),
-            contentDescription = iconDescription
-        )
-    }
-}
-
-@Composable
-fun ForgotPasswordSection(){
-    Column(
-        Modifier.height(40.dp)
+            .padding(start = 4.dp)
             .fillMaxWidth()
     ) {
         Text(
-            text = "Forgot password?",
-            fontSize = 16.sp,
-            modifier = Modifier.align(Alignment.End)
+            text = title,
+            color = White,
+            fontSize = titleTextSize,
+            fontWeight = FontWeight.Bold,
         )
+    }
+}
+
+@Composable
+fun ForgotPasswordSection() {
+    Column(Modifier.fillMaxWidth())
+    {
+        TextButton(
+            onClick = {},
+            shape = RoundedCornerShape(radius),
+            modifier = Modifier
+                .height(height)
+                .align(Alignment.End)
+        ) {
+            Text(
+                text = "Forgot password?",
+                color = White,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 16.sp,
+            )
+        }
     }
 
 }
 
 @Composable
 fun RedirectSection(
-    text: String,
+    text:String,
+    linkText: String,
     onClick: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+    Column(
+        Modifier.fillMaxWidth()
     ) {
-        Text(
-            text = text,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.Blue,
-            modifier = Modifier.clickable(onClick = onClick)
-        )
+        TextButton(
+            onClick = onClick,
+            shape = RoundedCornerShape(radius),
+            modifier = Modifier
+                .height(height)
+                .align(Alignment.CenterHorizontally)
+        ) {
+
+            Text(
+                text = text,
+                color = White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Normal
+
+            )
+            Spacer(Modifier.width(5.dp))
+            Text(
+                text = linkText,
+                color = White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
     }
 }
+
+
 
 @Composable
 fun AuthTextField(
     value: String,
     onValueChange: (String) -> Unit,
     hintTitle: String,
+    isPasswordField: Boolean = false
 ) {
-    Column{
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            label = {
-                Text(text = hintTitle, color = Color.Gray)
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Blue
-            ),
-            modifier = Modifier.fillMaxWidth(),
+    var passwordVisibility by remember { mutableStateOf(!isPasswordField) }
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        shape = RoundedCornerShape(radius),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next
+        ),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            unfocusedBorderColor = White,
+            focusedBorderColor = White
+        ),
+        label = {
+            Text(text = hintTitle, color = Gray)
+        },
+        visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingIcon = {
+            if(isPasswordField) {
+                IconButton(
+                    onClick = { passwordVisibility = !passwordVisibility }
+                ) {
+                    Icon(
+                        imageVector = if (passwordVisibility)
+                            Icons.Filled.Visibility
+                        else
+                            Icons.Filled.VisibilityOff,
+                        contentDescription = null,
+                        tint = Gray
+                    )
+
+                }
+            }
+        }
+        ,
+        modifier = Modifier.fillMaxWidth().height(height)
+    )
+}
+
+@Composable
+fun ContinueButtonSection(
+    text: String = ""
+) {
+    OutlinedButton(
+        modifier = Modifier
+            .height(height)
+            .fillMaxWidth(),
+        onClick = {},
+        colors = ButtonDefaults.buttonColors(backgroundColor = White),
+        shape = RoundedCornerShape(radius),
+        elevation = ButtonDefaults.elevation(10.dp),
+    ) {
+        Text(
+            text = text,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = MaterialTheme.colors.primary
         )
     }
 }
 
 @Composable
-fun ContinueButtonSection(
-    text: String = "",
-    icon: Int,
-    iconDescription: String? = null
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = text,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Surface(
-            color = Color.Blue,
-            shape = CircleShape,
-            elevation = 8.dp
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(70.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = iconDescription,
-                    tint = Color.White
-                )
-            }
-        }
-    }
+fun VerticalSpacer(height: Dp = defaultSpacerHeight){
+    Spacer(Modifier.height(height))
 }
+
