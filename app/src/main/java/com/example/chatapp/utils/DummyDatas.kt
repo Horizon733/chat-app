@@ -1,6 +1,6 @@
 package com.example.chatapp.utils
 
-import com.example.chatapp.models.Chat
+import com.example.chatapp.domain.models.Chat
 
 class DummyDatas {
     companion object {
