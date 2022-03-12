@@ -1,5 +1,6 @@
 package com.example.chatapp.presentation.chatscreen
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -10,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Attachment
@@ -61,7 +63,7 @@ fun ChatScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.primary),
+            .background(color = colors.primary),
         verticalArrangement = Arrangement.SpaceBetween
 
     ) {
@@ -165,7 +167,7 @@ fun ChatSection(
 fun MessageSection() {
     Column(
         Modifier
-            .background(MaterialTheme.colors.primary)
+            .background(colors.primary)
             .fillMaxWidth()
             .padding(10.dp)
 
@@ -181,8 +183,8 @@ fun MessageSection() {
 
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = White,
-                focusedBorderColor = MaterialTheme.colors.primary,
+                unfocusedBorderColor = colors.background,
+                focusedBorderColor = colors.primary,
                 textColor = White,
             ),
             value = message.value,
@@ -251,7 +253,7 @@ fun MessageItem(
         Box(
             modifier = Modifier
                 .background(
-                    if (isOut) MaterialTheme.colors.primary else Color(0xFFF3F6FA),
+                    if (isOut) colors.primary else Color(0xFFF3F6FA),
                     shape = RoundedCornerShape(
                         topStart = 16.dp,
                         topEnd = 16.dp,
@@ -283,7 +285,8 @@ fun MessageItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_NO)
+//@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun Preview() {
     ChatappTheme {

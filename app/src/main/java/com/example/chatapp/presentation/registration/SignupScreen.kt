@@ -1,5 +1,6 @@
 package com.example.chatapp.presentation.registration
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -66,7 +67,8 @@ fun SignupSection(
     }
 }
 
-@Preview
+//@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun Preview() {
     ChatappTheme {
