@@ -191,13 +191,14 @@ fun AuthTextField(
 
 @Composable
 fun ContinueButtonSection(
-    text: String = ""
+    text: String = "",
+    onButtonClick: () -> Unit
 ) {
     OutlinedButton(
         modifier = Modifier
             .height(height)
             .fillMaxWidth(),
-        onClick = {},
+        onClick = onButtonClick,
         colors = ButtonDefaults.buttonColors(backgroundColor = White),
         shape = RoundedCornerShape(radius),
         elevation = ButtonDefaults.elevation(10.dp),

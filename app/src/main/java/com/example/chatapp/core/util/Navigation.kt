@@ -1,13 +1,12 @@
 package com.example.chatapp.core.util
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.chatapp.MainScreen
 import com.example.chatapp.presentation.login.LoginScreen
-import com.example.chatapp.presentation.login.SignupScreen
+import com.example.chatapp.presentation.registration.SignupScreen
 
 @Composable
 fun Navigation(
