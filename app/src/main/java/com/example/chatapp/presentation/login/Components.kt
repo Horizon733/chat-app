@@ -19,12 +19,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 val radius = 14.dp
-val height = 50.dp
-val titleTextSize = 40.sp
+val height = 60.dp
+val titleTextSize = 30.sp
+val defaultSpacerHeight = 12.dp
 const val topBarRadiusPercent = 50
 
 @Composable
@@ -51,7 +53,7 @@ fun TopBarSection(
                     bottomEndPercent = topBarRadiusPercent
                 )
             )
-            .height(height * 2)
+            .height(height * 1.5.toInt())
             .fillMaxWidth()
 
     ){
@@ -75,6 +77,7 @@ fun TitleSection(
     ) {
         Text(
             text = title,
+            color = White,
             fontSize = titleTextSize,
             fontWeight = FontWeight.Bold,
         )
@@ -182,7 +185,7 @@ fun AuthTextField(
             }
         }
         ,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().height(height)
     )
 }
 
@@ -208,6 +211,8 @@ fun ContinueButtonSection(
     }
 }
 
-
-
+@Composable
+fun VerticalSpacer(height: Dp = defaultSpacerHeight){
+    Spacer(Modifier.height(height))
+}
 

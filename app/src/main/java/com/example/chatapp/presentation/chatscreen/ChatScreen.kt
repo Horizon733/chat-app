@@ -1,10 +1,8 @@
 package com.example.chatapp.presentation.chatscreen
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,6 +32,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.chatapp.ChangeStatusBarColor
+import com.example.chatapp.presentation.login.VerticalSpacer
 import com.example.chatapp.ui.theme.ChatappTheme
 
 
@@ -42,8 +42,6 @@ data class Chat(
     val time: String,
     val isOutgoing: Boolean
 )
-
-
 
 val message = mutableStateOf("")
 
@@ -61,6 +59,7 @@ const val isOnline = true
 
 @Composable
 fun ChatScreen() {
+    ChangeStatusBarColor(White)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -83,55 +82,56 @@ fun TopBarSection(
     isOnline: Boolean,
     onBack: () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(60.dp)
-            .background(color = if (isSystemInDarkTheme()) Black else White),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+    TopAppBar(
+        backgroundColor = White,
+        contentColor = Black
     ) {
-
-        IconButton(
-            onClick = onBack,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            Icon(
-                tint = if (isSystemInDarkTheme()) White else DarkGray,
-                imageVector = Icons.Filled.ArrowBackIos,
-                contentDescription = "Back",
-            )
-        }
-
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                color = if (isSystemInDarkTheme()) White else DarkGray,
-                text = username,
-                fontWeight = FontWeight.ExtraBold
-            )
-            if (isOnline) {
-                Text(
-                    color = if (isSystemInDarkTheme()) White else DarkGray,
-                    text = "Online",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 12.sp
+            IconButton(
+                onClick = onBack,
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBackIos,
+                    contentDescription = "Back",
                 )
             }
-        }
 
-        IconButton(
-            onClick = { },
-        ) {
-            Icon(
-                tint = if (isSystemInDarkTheme()) White else DarkGray,
-                imageVector = Icons.Filled.Call,
-                contentDescription = "Call",
-            )
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    color = Black,
+                    text = username,
+                    fontWeight = FontWeight.ExtraBold
+                )
+                if (isOnline) {
+                    Text(
+                        text = "Online",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+
+            IconButton(
+                onClick = { },
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Call,
+                    contentDescription = "Call",
+                )
+            }
+
         }
 
     }
+
 }
 
 @Composable
@@ -159,7 +159,7 @@ fun ChatSection(
                 chat.time.uppercase(),
                 chat.isOutgoing
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            VerticalSpacer(8.dp)
         }
     }
 }
@@ -280,14 +280,14 @@ fun MessageItem(
             text = time,
             fontWeight = FontWeight.Light,
             fontSize = 12.sp,
-            color = if (isSystemInDarkTheme()) White else DarkGray,
+            color = Black,
             modifier = Modifier.padding(start = 8.dp)
         )
     }
 }
 
-//@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_NO)
-@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_NO)
+//@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun Preview() {
     ChatappTheme {
