@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.chatapp.R
+import com.example.chatapp.core.util.Screen
 
 val signupName = mutableStateOf("")
 val signupEmail = mutableStateOf("")
@@ -17,6 +19,7 @@ val signupPassword = mutableStateOf("")
 
 @Composable
 fun SignupScreen(
+    navController: NavController
 ) {
     Column(
         modifier = Modifier
@@ -32,9 +35,13 @@ fun SignupScreen(
         }
         SignupSection("Username", "Email address", "Password")
         Column(verticalArrangement = Arrangement.Bottom){
-            ContinueButtonSection("Sign up", R.drawable.ic_round_arrow_forward, null)
+            ContinueButtonSection("Sign up", R.drawable.ic_round_arrow_forward, null) {
+                navController.navigate(Screen.HomeScreen.route)
+            }
             Spacer(modifier = Modifier.height(20.dp))
-            RedirectSection("Login") { }
+            RedirectSection("Login") {
+                navController.navigate(Screen.LoginScreen.route)
+            }
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
@@ -55,10 +62,4 @@ fun SignupSection(
         Spacer(modifier = Modifier.height(12.dp))
         AuthTextField(signupPassword.value, { signupPassword.value = it }, hintPassword)
     }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    SignupScreen()
 }

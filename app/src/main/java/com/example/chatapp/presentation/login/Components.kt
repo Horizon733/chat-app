@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.chatapp.core.util.Screen
 
 @Composable
 fun TitleSection(
@@ -112,7 +113,8 @@ fun AuthTextField(
 fun ContinueButtonSection(
     text: String = "",
     icon: Int,
-    iconDescription: String? = null
+    iconDescription: String? = null,
+    onButtonClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -132,7 +134,8 @@ fun ContinueButtonSection(
         ) {
             Box(
                 modifier = Modifier
-                    .size(70.dp),
+                    .size(70.dp)
+                    .clickable(onClick = onButtonClick),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
