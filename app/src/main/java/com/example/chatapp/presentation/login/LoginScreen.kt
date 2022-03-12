@@ -8,17 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.chatapp.R
-import com.example.chatapp.core.util.Screen
 
 val loginEmail = mutableStateOf("")
 val loginPassword = mutableStateOf("")
 
 @Composable
-fun LoginScreen(
-    navController: NavController
-) {
+fun LoginScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,13 +29,9 @@ fun LoginScreen(
         }
         LoginSection("Username or Email", "Password")
         Column(verticalArrangement = Arrangement.Bottom) {
-            ContinueButtonSection("Login", R.drawable.ic_round_arrow_forward, null) {
-                navController.navigate(Screen.HomeScreen.route)
-            }
+            ContinueButtonSection("Login", R.drawable.ic_round_arrow_forward, null)
             Spacer(modifier = Modifier.height(20.dp))
-            RedirectSection("Sign up") {
-                navController.navigate(Screen.SignupScreen.route)
-            }
+            RedirectSection("Sign up") {}
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
@@ -57,4 +49,12 @@ fun LoginSection(
         Spacer(modifier = Modifier.height(12.dp))
         ForgotPasswordSection()
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun LoginPreview() {
+    //TopActionBar()
+    LoginScreen()
 }

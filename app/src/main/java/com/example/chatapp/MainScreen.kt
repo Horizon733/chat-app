@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.chatapp.core.presentation.components.ChatItem
 import com.example.chatapp.core.presentation.components.IconButton
 import com.example.chatapp.core.presentation.components.TopBar
@@ -29,7 +28,7 @@ import com.example.chatapp.ui.theme.ChatappTheme
 import com.example.chatapp.utils.DummyDatas.Companion.dummyChats
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen() {
     Column(modifier = Modifier
         .fillMaxSize()
         .background(MaterialTheme.colors.primary)) {
@@ -55,5 +54,13 @@ fun MainScreen(navController: NavController) {
                 )
             }
         }
+    }
+}
+
+@Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
+@Composable
+fun Preview() {
+    ChatappTheme() {
+        MainScreen()
     }
 }
