@@ -81,7 +81,7 @@ fun SignupSection(
         )
         Spacer(modifier = Modifier.height(12.dp))
         ContinueButtonSection("Sign up") {
-            navController.navigate(Screen.HomeScreen.route)
+            navController.navigate(Screen.LoginScreen.route)
         }
     }
 }

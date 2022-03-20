@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.chatapp.core.presentation.components.ChatItem
 import com.example.chatapp.core.presentation.components.TopBar
+import com.example.chatapp.core.util.Screen
 import com.example.chatapp.presentation.login.VerticalSpacer
 import com.example.chatapp.utils.DummyDatas.Companion.dummyChats
 
@@ -32,10 +33,11 @@ fun MainScreen(
 
         TopBar(
             title = stringResource(id = R.string.home_screen_title),
-            starIcon = Icons.Outlined.Menu,
+            startIcon = Icons.Outlined.Menu,
             endIcon = Icons.Outlined.Search,
-            starIconDescription = "menu",
-            endIconDescription = "search button"
+            startIconDescription = "menu",
+            endIconDescription = "search button",
+            onStartIconClick = { navController.navigate(Screen.LoginScreen.route)}
         )
         LazyColumn(modifier = Modifier
             .background(Color.White, RoundedCornerShape(topStart = 42.dp, topEnd = 42.dp))

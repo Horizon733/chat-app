@@ -77,7 +77,11 @@ fun LoginSection(
         ForgotPasswordSection()
         Spacer(modifier = Modifier.height(12.dp))
         ContinueButtonSection("Login") {
-            navController.navigate(Screen.HomeScreen.route)
+            navController.navigate(Screen.HomeScreen.route){
+                popUpTo(Screen.LoginScreen.route) {
+                    inclusive = true
+                }
+            }
         }
     }
 }
