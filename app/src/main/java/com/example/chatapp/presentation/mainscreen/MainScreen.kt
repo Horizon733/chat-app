@@ -1,4 +1,4 @@
-package com.example.chatapp
+package com.example.chatapp.presentation.mainscreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.chatapp.ChangeStatusBarColor
+import com.example.chatapp.R
 import com.example.chatapp.core.presentation.components.ChatItem
 import com.example.chatapp.core.presentation.components.TopBar
 import com.example.chatapp.core.util.Screen
@@ -50,8 +52,14 @@ fun MainScreen(
                     chat.unreadMessageCont,
                     chat.profile,
                     chat.lastMessageTime
-                )
+                ){
+                    navigateToChatScreen(navController, chat.userName)
+                }
             }
         }
     }
+}
+
+private fun navigateToChatScreen(navController: NavController, name:String) {
+    navController.navigate(Screen.ChatScreen.route + "/$name")
 }

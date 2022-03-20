@@ -78,7 +78,7 @@ fun LoginSection(
         Spacer(modifier = Modifier.height(12.dp))
         ContinueButtonSection("Login") {
             navController.navigate(Screen.HomeScreen.route){
-                popUpTo(Screen.LoginScreen.route) {
+                popUpTo(navController.currentDestination!!.route!!) {
                     inclusive = true
                 }
             }

@@ -14,10 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.chatapp.ChangeStatusBarColor
 import com.example.chatapp.R
-import com.example.chatapp.core.util.Screen
 import com.example.chatapp.presentation.login.*
 
 val signupName = mutableStateOf("")
@@ -26,7 +24,7 @@ val signupPassword = mutableStateOf("")
 
 @Composable
 fun SignupScreen(
-    navController: NavController
+    navigateToLogin: () -> Unit
 ) {
     ChangeStatusBarColor(White)
     Column(
@@ -48,9 +46,9 @@ fun SignupScreen(
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            SignupSection("Username", "Ema il address", "Password", navController)
+            SignupSection("Username", "Ema il address", "Password", navigateToLogin)
             VerticalSpacer()
-            RedirectSection("Already have an account?", "Login") { navController.navigate(Screen.LoginScreen.route) }
+            RedirectSection("Already have an account?", "Login",  navigateToLogin )
             VerticalSpacer()
         }
     }
@@ -62,7 +60,7 @@ fun SignupSection(
     hintName: String,
     hintEmail: String,
     hintPassword: String,
-    navController: NavController
+    navigateToLogin: () -> Unit
 ) {
     Column(
         Modifier
@@ -81,7 +79,7 @@ fun SignupSection(
         )
         Spacer(modifier = Modifier.height(12.dp))
         ContinueButtonSection("Sign up") {
-            navController.navigate(Screen.LoginScreen.route)
+            navigateToLogin()
         }
     }
 }
