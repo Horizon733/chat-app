@@ -39,7 +39,13 @@ fun MainScreen(
             endIcon = Icons.Outlined.Search,
             startIconDescription = "menu",
             endIconDescription = "search button",
-            onStartIconClick = { navController.navigate(Screen.LoginScreen.route)}
+            onStartIconClick = {
+                navController.navigate(Screen.LoginScreen.route){
+                    popUpTo(navController.currentDestination!!.route!!){
+                        inclusive = true
+                    }
+                }
+            }
         )
         LazyColumn(modifier = Modifier
             .background(Color.White, RoundedCornerShape(topStart = 42.dp, topEnd = 42.dp))
