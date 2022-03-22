@@ -46,9 +46,9 @@ fun SignupScreen(
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            SignupSection("Username", "Ema il address", "Password", navigateToLogin)
+            SignupSection("Username", "Email address", "Password", navigateToLogin)
             VerticalSpacer()
-            RedirectSection("Already have an account?", "Login",  navigateToLogin )
+            RedirectSection("Already have an account?", "Login", navigateToLogin)
             VerticalSpacer()
         }
     }

@@ -14,17 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.chatapp.ChangeStatusBarColor
 import com.example.chatapp.R
-import com.example.chatapp.core.util.Screen
+import com.example.chatapp.core.util.Screen.HomeScreen
+import com.example.chatapp.core.util.Screen.SignupScreen
 
 val loginEmail = mutableStateOf("")
 val loginPassword = mutableStateOf("")
 
 @Composable
 fun LoginScreen(
-    navController: NavController
+    navigateTo: (String) -> Unit
 ) {
     ChangeStatusBarColor(White)
     Column(
@@ -46,9 +46,11 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            LoginSection("Username or Email", "Password", navController)
+            LoginSection("Username or Email", "Password", navigateTo)
             VerticalSpacer()
-            RedirectSection("Don't have an account?", "Sign up") { navController.navigate(Screen.SignupScreen.route) }
+            RedirectSection("Don't have an account?", "Sign up") {
+                navigateTo(SignupScreen.route)
+            }
             VerticalSpacer()
         }
     }
@@ -58,7 +60,7 @@ fun LoginScreen(
 fun LoginSection(
     hintEmail: String,
     hintPassword: String,
-    navController: NavController
+    navigateTo: (String) -> Unit
 ) {
     Column(
         Modifier
@@ -77,11 +79,7 @@ fun LoginSection(
         ForgotPasswordSection()
         Spacer(modifier = Modifier.height(12.dp))
         ContinueButtonSection("Login") {
-            navController.navigate(Screen.HomeScreen.route){
-                popUpTo(navController.currentDestination!!.route!!) {
-                    inclusive = true
-                }
-            }
+            navigateTo(HomeScreen.route)
         }
     }
 }

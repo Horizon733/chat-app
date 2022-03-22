@@ -21,6 +21,8 @@ import com.example.chatapp.R
 import com.example.chatapp.core.presentation.components.ChatItem
 import com.example.chatapp.core.presentation.components.TopBar
 import com.example.chatapp.core.util.Screen
+import com.example.chatapp.core.util.navigateToAndClearBackStack
+import com.example.chatapp.core.util.navigateToChatScreen
 import com.example.chatapp.presentation.login.VerticalSpacer
 import com.example.chatapp.utils.DummyDatas.Companion.dummyChats
 
@@ -40,11 +42,7 @@ fun MainScreen(
             startIconDescription = "menu",
             endIconDescription = "search button",
             onStartIconClick = {
-                navController.navigate(Screen.LoginScreen.route){
-                    popUpTo(navController.currentDestination!!.route!!){
-                        inclusive = true
-                    }
-                }
+                navController.navigateToAndClearBackStack(Screen.LoginScreen.route)
             }
         )
         LazyColumn(modifier = Modifier
@@ -59,13 +57,9 @@ fun MainScreen(
                     chat.profile,
                     chat.lastMessageTime
                 ){
-                    navigateToChatScreen(navController, chat.userName)
+                    navController.navigateToChatScreen(chat.userName)
                 }
             }
         }
     }
-}
-
-private fun navigateToChatScreen(navController: NavController, name:String) {
-    navController.navigate(Screen.ChatScreen.route + "/$name")
 }

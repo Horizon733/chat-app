@@ -1,7 +1,7 @@
 package com.example.chatapp
 
 import android.os.Bundle
-import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Text
@@ -16,11 +16,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        window.setSoftInputMode(SOFT_INPUT_ADJUST_RESIZE)
         setContent {
             ChatappTheme {
-                val navController = rememberNavController()
-                Navigation(navController = navController)
+                Navigation(navController = rememberNavController())
             }
         }
     }
