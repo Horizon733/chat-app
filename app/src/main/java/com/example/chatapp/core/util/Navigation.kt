@@ -21,7 +21,7 @@ fun Navigation(navController: NavHostController) {
 
             composable(SignupScreen.route) { SignupScreen { navigateTo(LoginScreen, true) } }
 
-            composable(HomeScreen.route) { MainScreen { screen, args, isStackCleared -> navigateTo(screen,  isStackCleared, args) } }
+            composable(HomeScreen.route) { MainScreen { screen,  isStackCleared, args -> navigateTo(screen,  isStackCleared, args) } }
 
             composable(ChatScreen.route) {
                 ChatScreen(

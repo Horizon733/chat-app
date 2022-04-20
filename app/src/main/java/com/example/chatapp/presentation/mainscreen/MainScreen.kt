@@ -24,7 +24,7 @@ import com.example.chatapp.presentation.login.VerticalSpacer
 import com.example.chatapp.utils.DummyDatas.Companion.dummyChats
 
 @Composable
-fun MainScreen(navController: (Screen, List<String>, Boolean) -> Unit) {
+fun MainScreen(navController: (Screen, Boolean, List<String>) -> Unit) {
     ChangeStatusBarColor(color = colors.primary)
     Column(modifier = Modifier
         .fillMaxSize()
@@ -37,7 +37,7 @@ fun MainScreen(navController: (Screen, List<String>, Boolean) -> Unit) {
             startIconDescription = "menu",
             endIconDescription = "search button",
             onStartIconClick = {
-                navController(Screen.LoginScreen, listOf(), true)
+                navController(Screen.LoginScreen, true, listOf())
             }
         )
         LazyColumn(modifier = Modifier
@@ -52,7 +52,7 @@ fun MainScreen(navController: (Screen, List<String>, Boolean) -> Unit) {
                     chat.profile,
                     chat.lastMessageTime
                 ){
-                    navController(Screen.ChatScreen, listOf(it), false)
+                    navController(Screen.ChatScreen, false, listOf(it))
                 }
             }
         }
