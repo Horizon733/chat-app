@@ -12,7 +12,7 @@ sealed class Screen(private val routeName: String, private val argsList: List<St
             argsList.forEach { append("/{$it}") }
         }
 
-    fun navigateWithArgs(argsList: List<String> = listOf()) = buildString {
+    fun generatedNavLink(argsList: List<String> = listOf()) = buildString {
         append(routeName)
         argsList.forEach { append("/$it") }
     }

@@ -35,11 +35,10 @@ fun Navigation(navController: NavHostController) {
 }
 
 fun NavController.navigateTo(toRoute: Screen, isBackStackCleared: Boolean = false, argsList: List<String> = listOf()) {
-    navigate(toRoute.navigateWithArgs(argsList)) {
+    navigate(toRoute.generatedNavLink(argsList)) {
         if (isBackStackCleared)
             popUpTo(currentDestination!!.route!!) {
             inclusive = true
         }
     }
 }
-
