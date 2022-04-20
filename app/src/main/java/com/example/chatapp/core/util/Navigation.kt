@@ -14,7 +14,6 @@ import com.example.chatapp.presentation.registration.SignupScreen
 
 @Composable
 fun Navigation(navController: NavHostController) {
-
     navController.apply {
         NavHost(this, LoginScreen.route) {
 
@@ -22,7 +21,7 @@ fun Navigation(navController: NavHostController) {
 
             composable(SignupScreen.route) { SignupScreen { navigateTo(LoginScreen, true) } }
 
-            composable(HomeScreen.route) { MainScreen { screen, args -> navigateTo(screen, argsList = args) } }
+            composable(HomeScreen.route) { MainScreen { screen, args, isStackCleared -> navigateTo(screen,  isStackCleared, args) } }
 
             composable(ChatScreen.route) {
                 ChatScreen(
