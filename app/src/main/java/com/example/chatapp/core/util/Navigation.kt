@@ -11,49 +11,35 @@ import com.example.chatapp.presentation.login.LoginScreen
 import com.example.chatapp.presentation.mainscreen.MainScreen
 import com.example.chatapp.presentation.registration.SignupScreen
 
-const val chatScreenArg = "name"
 
 @Composable
 fun Navigation(navController: NavHostController) {
 
     navController.apply {
-        NavHost(
-            navController = this,
-            startDestination = LoginScreen.route
-        ) {
+        NavHost(this, LoginScreen.route) {
 
-            composable(route = LoginScreen.route) {
-                LoginScreen { navigateToAndClearBackStack(it) }
-            }
+            composable(LoginScreen.route) { LoginScreen { navigateTo(it, true) } }
 
-            composable(route = SignupScreen.route) {
-                SignupScreen { navigateToAndClearBackStack(LoginScreen.route) }
-            }
+            composable(SignupScreen.route) { SignupScreen { navigateTo(LoginScreen, true) } }
 
-            composable(route = HomeScreen.route) {
-                MainScreen(navController)
-            }
+            composable(HomeScreen.route) { MainScreen { screen, args -> navigateTo(screen, argsList = args) } }
 
-            composable(route = chatScreenRouteFetch(chatScreenArg)) {
+            composable(ChatScreen.route) {
                 ChatScreen(
                     onBackClicked = { popBackStack() },
-                    username = it.arguments?.getString(chatScreenArg) ?: ""
+                    username = it.arguments?.getString(chatSenderName) ?: ""
                 )
             }
         }
     }
 }
 
-fun NavController.navigateToAndClearBackStack(toRoute: String) {
-    navigate(toRoute) {
-        popUpTo(currentDestination!!.route!!) {
+fun NavController.navigateTo(toRoute: Screen, isBackStackCleared: Boolean = false, argsList: List<String> = listOf()) {
+    navigate(toRoute.navigateWithArgs(argsList)) {
+        if (isBackStackCleared)
+            popUpTo(currentDestination!!.route!!) {
             inclusive = true
         }
     }
 }
 
-fun NavController.navigateToChatScreen(name: String) {
-    navigate(ChatScreen.route + "/$name")
-}
-
-fun chatScreenRouteFetch(arg: String) = ChatScreen.route + "/{$arg}"

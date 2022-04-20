@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 import com.example.chatapp.ChangeStatusBarColor
 import com.example.chatapp.R
+import com.example.chatapp.core.util.Screen
 import com.example.chatapp.core.util.Screen.HomeScreen
 import com.example.chatapp.core.util.Screen.SignupScreen
 
@@ -24,7 +25,7 @@ val loginPassword = mutableStateOf("")
 
 @Composable
 fun LoginScreen(
-    navigateTo: (String) -> Unit
+    navigateTo: (Screen) -> Unit
 ) {
     ChangeStatusBarColor(White)
     Column(
@@ -49,7 +50,7 @@ fun LoginScreen(
             LoginSection("Username or Email", "Password", navigateTo)
             VerticalSpacer()
             RedirectSection("Don't have an account?", "Sign up") {
-                navigateTo(SignupScreen.route)
+                navigateTo(SignupScreen)
             }
             VerticalSpacer()
         }
@@ -60,7 +61,7 @@ fun LoginScreen(
 fun LoginSection(
     hintEmail: String,
     hintPassword: String,
-    navigateTo: (String) -> Unit
+    navigateTo: (Screen) -> Unit
 ) {
     Column(
         Modifier
@@ -79,7 +80,7 @@ fun LoginSection(
         ForgotPasswordSection()
         Spacer(modifier = Modifier.height(12.dp))
         ContinueButtonSection("Login") {
-            navigateTo(HomeScreen.route)
+            navigateTo(HomeScreen)
         }
     }
 }

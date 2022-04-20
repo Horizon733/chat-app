@@ -15,21 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.chatapp.ChangeStatusBarColor
 import com.example.chatapp.R
 import com.example.chatapp.core.presentation.components.ChatItem
 import com.example.chatapp.core.presentation.components.TopBar
 import com.example.chatapp.core.util.Screen
-import com.example.chatapp.core.util.navigateToAndClearBackStack
-import com.example.chatapp.core.util.navigateToChatScreen
 import com.example.chatapp.presentation.login.VerticalSpacer
 import com.example.chatapp.utils.DummyDatas.Companion.dummyChats
 
 @Composable
-fun MainScreen(
-    navController: NavController
-) {
+fun MainScreen(navController: (Screen, List<String>) -> Unit) {
     ChangeStatusBarColor(color = colors.primary)
     Column(modifier = Modifier
         .fillMaxSize()
@@ -42,7 +37,7 @@ fun MainScreen(
             startIconDescription = "menu",
             endIconDescription = "search button",
             onStartIconClick = {
-                navController.navigateToAndClearBackStack(Screen.LoginScreen.route)
+                navController(Screen.LoginScreen, listOf())
             }
         )
         LazyColumn(modifier = Modifier
@@ -57,7 +52,7 @@ fun MainScreen(
                     chat.profile,
                     chat.lastMessageTime
                 ){
-                    navController.navigateToChatScreen(chat.userName)
+                    navController(Screen.ChatScreen, listOf(it))
                 }
             }
         }
