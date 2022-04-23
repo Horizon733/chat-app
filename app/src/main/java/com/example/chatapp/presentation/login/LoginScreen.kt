@@ -1,6 +1,5 @@
 package com.example.chatapp.presentation.login
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableState
@@ -9,23 +8,25 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chatapp.ChangeStatusBarColor
 import com.example.chatapp.R
-import com.example.chatapp.ui.theme.ChatappTheme
+import com.example.chatapp.core.util.Screen
+import com.example.chatapp.core.util.Screen.HomeScreen
+import com.example.chatapp.core.util.Screen.SignupScreen
 
 val loginEmail = mutableStateOf("")
 val loginPassword = mutableStateOf("")
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navigateTo: (Screen) -> Unit
+) {
     ChangeStatusBarColor(White)
     Column(
         modifier = Modifier
@@ -46,9 +47,11 @@ fun LoginScreen() {
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            LoginSection("Username or Email", "Password")
+            LoginSection("Username or Email", "Password", navigateTo)
             VerticalSpacer()
-            RedirectSection("Don't have an account?", "Sign up") { /*todo navigation*/ }
+            RedirectSection("Don't have an account?", "Sign up") {
+                navigateTo(SignupScreen)
+            }
             VerticalSpacer()
         }
     }
@@ -57,7 +60,8 @@ fun LoginScreen() {
 @Composable
 fun LoginSection(
     hintEmail: String,
-    hintPassword: String
+    hintPassword: String,
+    navigateTo: (Screen) -> Unit
 ) {
     Column(
         Modifier
@@ -75,21 +79,8 @@ fun LoginSection(
         Spacer(modifier = Modifier.height(12.dp))
         ForgotPasswordSection()
         Spacer(modifier = Modifier.height(12.dp))
-        ContinueButtonSection("Login")
-
-
-    }
-}
-
-
-//@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun LoginPreview() {
-    //TopActionBar()
-    ChatappTheme {
-        Surface {
-            LoginScreen()
+        ContinueButtonSection("Login") {
+            navigateTo(HomeScreen)
         }
     }
 }

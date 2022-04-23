@@ -54,11 +54,10 @@ val chats = mutableStateListOf(
     Chat("I am good", "10:11 pm", false),
 )
 
-const val username = "Gojo Satoru"
 const val isOnline = true
 
 @Composable
-fun ChatScreen() {
+fun ChatScreen(onBackClicked: () -> Unit = {}, username: String = "Gojo Satoru") {
     ChangeStatusBarColor(White)
     Column(
         modifier = Modifier
@@ -69,8 +68,9 @@ fun ChatScreen() {
     ) {
         TopBarSection(
             username = username,
-            isOnline = isOnline
-        ) { }
+            isOnline = isOnline,
+            onBack = onBackClicked
+        )
         ChatSection(Modifier.weight(1f))
         MessageSection()
     }
@@ -92,9 +92,7 @@ fun TopBarSection(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            IconButton(
-                onClick = onBack,
-            ) {
+            IconButton(onClick = onBack){
                 Icon(
                     imageVector = Icons.Filled.ArrowBackIos,
                     contentDescription = "Back",

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
@@ -22,7 +23,8 @@ import com.example.chatapp.ui.theme.Shapes
 @Composable
 fun IconButton(
     icon: ImageVector,
-    description: String? = null
+    description: String? = null,
+    onButtonClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -30,19 +32,21 @@ fun IconButton(
             .background(MaterialTheme.colors.secondary, shape = RoundedCornerShape(16.dp)),
         contentAlignment = Alignment.Center
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = description,
-            tint = Color.White,
-            modifier = Modifier.size(24.dp)
-        )
+        IconButton(onClick = { onButtonClick() }) {
+            Icon(
+                imageVector = icon,
+                contentDescription = description,
+                tint = Color.White,
+                modifier = Modifier.size(24.dp)
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 fun IconButtonPreview() {
-    ChatappTheme() {
+    ChatappTheme {
         IconButton(Icons.Outlined.Search)
     }
 }

@@ -21,23 +21,27 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopBar(
-    starIcon: ImageVector? = null,
+    startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
-    starIconDescription: String? = null,
+    startIconDescription: String? = null,
     endIconDescription: String? = null,
-    title: String
+    title: String,
+    onStartIconClick: () -> Unit = {},
+    onEndIconClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 16.dp, start = 24.dp, end = 24.dp, bottom = 16.dp),
-        horizontalArrangement = if (starIcon == null || endIcon == null) Arrangement.Center else Arrangement.SpaceBetween,
+        horizontalArrangement = if (startIcon == null || endIcon == null) Arrangement.Center else Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (starIcon != null) {
+        if (startIcon != null) {
             IconButton(
                 icon = Icons.Outlined.Menu,
-                starIconDescription
+                startIconDescription,
+                onStartIconClick
+
             )
         }
         Text(
@@ -50,7 +54,8 @@ fun TopBar(
         if (endIcon != null) {
             IconButton(
                 icon = Icons.Outlined.Search,
-                endIconDescription
+                endIconDescription,
+                onEndIconClick
             )
         }
     }

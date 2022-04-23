@@ -1,6 +1,6 @@
 package com.example.chatapp.models
 
-data class Chat(
+data class DummyChat(
     val userName: String,
     val lastMessage: String,
     val unreadMessageCont: Int,

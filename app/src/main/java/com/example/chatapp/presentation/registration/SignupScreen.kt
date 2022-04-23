@@ -1,6 +1,5 @@
 package com.example.chatapp.presentation.registration
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.ScrollableState
@@ -9,25 +8,24 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chatapp.ChangeStatusBarColor
 import com.example.chatapp.R
 import com.example.chatapp.presentation.login.*
-import com.example.chatapp.ui.theme.ChatappTheme
 
 val signupName = mutableStateOf("")
 val signupEmail = mutableStateOf("")
 val signupPassword = mutableStateOf("")
 
 @Composable
-fun SignupScreen() {
+fun SignupScreen(
+    navigateToLogin: () -> Unit
+) {
     ChangeStatusBarColor(White)
     Column(
         modifier = Modifier
@@ -48,9 +46,9 @@ fun SignupScreen() {
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            SignupSection("Username", "Email address", "Password")
+            SignupSection("Username", "Email address", "Password", navigateToLogin)
             VerticalSpacer()
-            RedirectSection("Already have an account?", "Login") { /*todo navigation*/ }
+            RedirectSection("Already have an account?", "Login", navigateToLogin)
             VerticalSpacer()
         }
     }
@@ -61,7 +59,8 @@ fun SignupScreen() {
 fun SignupSection(
     hintName: String,
     hintEmail: String,
-    hintPassword: String
+    hintPassword: String,
+    navigateToLogin: () -> Unit
 ) {
     Column(
         Modifier
@@ -79,17 +78,8 @@ fun SignupSection(
             isPasswordField = true
         )
         Spacer(modifier = Modifier.height(12.dp))
-        ContinueButtonSection("Sign up")
-    }
-}
-
-//@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun SignupPreview() {
-    ChatappTheme {
-        Surface {
-            SignupScreen()
+        ContinueButtonSection("Sign up") {
+            navigateToLogin()
         }
     }
 }

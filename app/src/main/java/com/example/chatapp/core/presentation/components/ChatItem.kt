@@ -2,6 +2,7 @@ package com.example.chatapp.core.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -11,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,13 +25,15 @@ fun ChatItem(
     lastMessage: String,
     unreadMessageCont: Int,
     profile: String,
-    lastMessageTime: String
+    lastMessageTime: String,
+    onClick: (String) -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .height(60.dp),
+            .height(60.dp)
+            .clickable { onClick(userName) },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
@@ -75,6 +77,12 @@ fun ChatItem(
 @Composable
 fun ChatItemPreview() {
     ChatappTheme {
-//        ChatItem()
+        ChatItem(
+            "Biren",
+            "Hii",
+            2,
+            "okay",
+            ""
+        )
     }
 }
